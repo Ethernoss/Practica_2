@@ -1,0 +1,39 @@
+name: Notify Branch Changes
+
+on:
+  push:
+    branches:
+      - main
+      - feature_a
+      - feature_b
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up the repository
+        uses: actions/checkout@v3
+
+      - name: Determine branch
+        id: branch_info
+        run: echo "branch=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Configuración del servidor SMTP
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: |
+            Cambios subidos a la rama ${{ env.branch }}
+          body: |
+            Hola,
+
+            Se han subido cambios a la rama ${{ env.branch }}.
+
+            Saludos.
+          to: jorge.arriaga@iteso.mx
+          from: jorgearriaga1102@gmail.com
