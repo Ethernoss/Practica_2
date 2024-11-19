@@ -28,11 +28,11 @@ jobs:
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: |
-            Cambios subidos a la rama ${{ env.branch }}
+            Cambios subidos a la rama ${{ steps.branch_info.outputs.branch }}
           body: |
             Hola,
 
-            Se han subido cambios a la rama ${{ env.branch }}.
+            Se han subido cambios a la rama ${{ github.ref_name }}.
 
             Saludos.
           to: jorge.arriaga@iteso.mx
