@@ -35,5 +35,5 @@ jobs:
             Se han subido cambios a la rama ${{ github.ref_name }}.
 
             Saludos.
-          to: jorgearriaga1102@gmail.com
-          from: jorge.arriaga@iteso.mx
+          to: jorge.arriaga@iteso.mx
+          from: jorgearriaga1102@gmail.com
