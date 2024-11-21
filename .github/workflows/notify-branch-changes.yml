@@ -35,11 +35,11 @@ jobs:
           username: ${{ secrets.SMTP_USERNAME }} # Usuario configurado en los secretos de GitHub
           password: ${{ secrets.SMTP_PASSWORD }} # Contraseña o clave de aplicación configurada en los secretos de GitHub
           subject: |
-            Cambios subidos a la rama ${{ steps.branch_info.outputs.branch }} # Asunto del correo con el nombre de la rama
+            Cambios subidos a la rama ${{ steps.branch_info.outputs.branch }}
           body: |
             Hola,
 
-            Se han subido cambios a la rama ${{ github.ref_name }}. # Mensaje del correo
+            Se han subido cambios a la rama ${{ github.ref_name }}
 
             Saludos.
           to: jorge.arriaga@iteso.mx # Dirección de correo del destinatario
