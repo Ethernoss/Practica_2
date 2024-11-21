@@ -1,39 +1,46 @@
+# Nombre del flujo de trabajo
 name: Notify Branch Changes
 
+# Configuración para activar el flujo
 on:
-  push:
-    branches:
+  push: # Se ejecuta cuando se hace un push
+    branches: # Lista de ramas que activarán el flujo
       - main
       - feature_a
       - feature_b
 
 jobs:
+  # Definición del trabajo llamado "notify"
   notify:
-    runs-on: ubuntu-latest
+    # Especifica el entorno donde se ejecutará el flujo
+    runs-on: ubuntu-latest # Utiliza un contenedor con Ubuntu
 
     steps:
+      # Paso 1: Preparar el repositorio
       - name: Set up the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3 # Descarga el código del repositorio para usarlo en el flujo
 
+      # Paso 2: Determinar el nombre de la rama en la que ocurrió el evento
       - name: Determine branch
-        id: branch_info
-        run: echo "branch=${{ github.ref_name }}" >> $GITHUB_ENV
+        id: branch_info # Identificador del paso, para usar los resultados más tarde
+        run: echo "branch=${{ github.ref_name }}" >> $GITHUB_ENV # Guarda el nombre de la rama en una variable de entorno
 
+      # Paso 3: Enviar la notificación por correo
       - name: Send email notification
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v3 # Utiliza la acción de GitHub para enviar correos
         with:
           # Configuración del servidor SMTP
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
+          server_address: smtp.gmail.com # Dirección del servidor SMTP
+          server_port: 587 # Puerto para conexiones seguras
+          username: ${{ secrets.SMTP_USERNAME }} # Usuario configurado en los secretos de GitHub
+          password: ${{ secrets.SMTP_PASSWORD }} # Contraseña o clave de aplicación configurada en los secretos de GitHub
           subject: |
-            Cambios subidos a la rama ${{ steps.branch_info.outputs.branch }}
+            Cambios subidos a la rama ${{ steps.branch_info.outputs.branch }} # Asunto del correo con el nombre de la rama
           body: |
             Hola,
 
-            Se han subido cambios a la rama ${{ github.ref_name }}.
+            Se han subido cambios a la rama ${{ github.ref_name }}. # Mensaje del correo
 
             Saludos.
-          to: jorge.arriaga@iteso.mx
-          from: jorgearriaga1102@gmail.com
+          to: jorge.arriaga@iteso.mx # Dirección de correo del destinatario
+          from: jorgearriaga1102@gmail.com # Dirección de correo del remitente
